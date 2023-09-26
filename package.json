@@ -17,7 +17,8 @@
     "lint": "eslint --quiet .",
     "lint:fix": "eslint --fix .",
     "format": "prettier --write .",
-    "codegen": "graphql-codegen --config codegen.ts"
+    "codegen": "graphql-codegen --config codegen.ts",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "Dennis Gonzales",
@@ -42,8 +43,10 @@
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-unicorn": "^48.0.1",
+    "lint-staged": "^14.0.1",
     "prettier": "^3.0.3",
     "tsup": "^7.2.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "husky": "^8.0.0"
   }
 }
