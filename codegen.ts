@@ -7,6 +7,15 @@ const config: CodegenConfig = {
     'src/__generated__/resolvers-types.ts': {
       plugins: ['typescript', 'typescript-resolvers'],
       config: {
+        // https://the-guild.dev/graphql/codegen/plugins/typescript/typescript#avoidoptionals
+        avoidOptionals: true,
+
+        // https://the-guild.dev/graphql/codegen/plugins/typescript/typescript#allow-undefined
+        maybeValue: 'T | null | undefined',
+
+        // https://the-guild.dev/graphql/codegen/plugins/typescript/typescript#strictscalars
+        strictScalars: true,
+
         useIndexSignature: true,
         // Providing our context's interface ensures our context's type is set for
         // all of our resolvers.

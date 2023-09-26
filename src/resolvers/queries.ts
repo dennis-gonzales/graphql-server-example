@@ -7,6 +7,9 @@ const queries: QueryResolvers = {
   books: async (_, __, { dataSources }) => {
     return dataSources.booksAPI.getBooks();
   },
+  book: async (_, args, { dataSources }) => {
+    return dataSources.booksAPI.getBook(args.id);
+  },
 };
 
 export default queries;

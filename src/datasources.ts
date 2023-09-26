@@ -5,7 +5,9 @@ import type {
   Book,
 } from './__generated__/resolvers-types';
 
-const BooksDB: Omit<Required<Book>, '__typename'>[] = [
+type BookType = Omit<Required<Book>, '__typename'>;
+
+const BooksDB: BookType[] = [
   {
     id: '1',
     title: 'The Awakening',
@@ -19,9 +21,13 @@ const BooksDB: Omit<Required<Book>, '__typename'>[] = [
 ];
 
 export class BooksDataSource {
-  getBooks(): Book[] {
+  getBooks(): BookType[] {
     // simulate fetching a list of books
     return BooksDB;
+  }
+
+  getBook(bookId: string): BookType | undefined {
+    return BooksDB.find(book => book.id === bookId);
   }
 
   // We are using a static data set for this small example, but normally
