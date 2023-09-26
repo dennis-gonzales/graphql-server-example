@@ -1,12 +1,20 @@
+// https://github.com/tsconfig/bases#recommended-tsconfigjson
 {
+  "extends": "@tsconfig/recommended/tsconfig.json",
+
+  // https://github.com/tsconfig/bases/blob/main/bases/recommended.json
   "compilerOptions": {
-    "rootDirs": ["src"],
-    "outDir": "dist",
-    "lib": ["es2020"],
-    "target": "es2020",
-    "module": "esnext",
+    "target": "ES2020",
+    "module": "ESNext",
     "moduleResolution": "node",
+    "strict": true,
     "esModuleInterop": true,
-    "types": ["node"]
-  }
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "noEmit": true,
+    "allowJs": false,
+  },
+  "include": ["**/*.ts", ".eslintrc.cjs"],
+  "exclude": ["node_modules", "dist"]
 }
