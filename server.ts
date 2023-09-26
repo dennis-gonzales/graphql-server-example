@@ -3,37 +3,23 @@ import { readFileSync } from 'node:fs';
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 
-import type { Book } from './src/__generated__/resolvers-types';
+import { BooksDataSource } from './src/datasources';
+import resolvers from './src/resolvers';
 
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
 // your data.
 const typeDefs = readFileSync('./src/schema.graphql', { encoding: 'utf8' });
 
-const books: Book[] = [
-  {
-    id: '1',
-    title: 'The Awakening',
-    author: 'Kate Chopin',
-  },
-  {
-    id: '2',
-    title: 'City of Glass',
-    author: 'Paul Auster',
-  },
-];
-
-// Resolvers define how to fetch the types defined in your schema.
-// This resolver retrieves books from the "books" array above.
-const resolvers = {
-  Query: {
-    books: () => books,
-  },
-};
+export interface MyContext {
+  dataSources: {
+    booksAPI: BooksDataSource;
+  };
+}
 
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
-const server = new ApolloServer({
+const server = new ApolloServer<MyContext>({
   typeDefs,
   resolvers,
 });
@@ -44,8 +30,16 @@ const server = new ApolloServer({
 //  3. prepares your app to handle incoming requests
 const { url } = await startStandaloneServer(server, {
   listen: { port: 4000 },
+  context: async () => {
+    return {
+      // We are using a static data set for this example, but normally
+      // this would be where you'd add your data source connections
+      // or your REST API classes.
+      dataSources: {
+        booksAPI: new BooksDataSource(),
+      },
+    };
+  },
 });
-
-console.log(books);
 
 console.log(`🚀  Server ready at: ${url}`);

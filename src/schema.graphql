@@ -12,9 +12,9 @@ type AddBookMutationResponse {
   code: String
   success: Boolean
   message: String
-  book: Book!
+  book: Book
 }
 
 type Mutation {
-  addBook(id: ID!, title: String!, author: String!): AddBookMutationResponse
+  addBook(title: String!, author: String!): AddBookMutationResponse
 }

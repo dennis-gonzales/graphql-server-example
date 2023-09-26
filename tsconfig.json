@@ -15,6 +15,6 @@
     "noEmit": true,
     "allowJs": false
   },
-  "include": ["**/*.ts", ".eslintrc.cjs"],
+  "include": ["**/*.ts", "resolvers-types.ts", ".eslintrc.cjs"],
   "exclude": ["node_modules", "dist"]
 }
