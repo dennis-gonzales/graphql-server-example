@@ -2,18 +2,21 @@ import { readFileSync } from 'fs';
 
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
+import { Book } from './__generated__/resolvers-types';
 
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
 // your data.
 const typeDefs = readFileSync('./src/schema.graphql', { encoding: 'utf-8' });
 
-const books = [
+let books: Book[] = [
   {
+    id: '1',
     title: 'The Awakening',
     author: 'Kate Chopin',
   },
   {
+    id: '2',
     title: 'City of Glass',
     author: 'Paul Auster',
   },
@@ -41,5 +44,7 @@ const server = new ApolloServer({
 const { url } = await startStandaloneServer(server, {
   listen: { port: 4000 },
 });
+
+console.log(books);
 
 console.log(`🚀  Server ready at: ${url}`);
