@@ -1,15 +1,16 @@
-import { readFileSync } from 'fs';
+import { readFileSync } from 'node:fs';
 
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
-import { Book } from './src/__generated__/resolvers-types';
+
+import type { Book } from './src/__generated__/resolvers-types';
 
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
 // your data.
-const typeDefs = readFileSync('./src/schema.graphql', { encoding: 'utf-8' });
+const typeDefs = readFileSync('./src/schema.graphql', { encoding: 'utf8' });
 
-let books: Book[] = [
+const books: Book[] = [
   {
     id: '1',
     title: 'The Awakening',

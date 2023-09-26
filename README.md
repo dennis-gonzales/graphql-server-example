@@ -1,4 +1,4 @@
-# GraphQL Server Example 
+# GraphQL Server Example
 
 See more on [apollographql docs](https://www.apollographql.com/docs/apollo-server/getting-started)
 

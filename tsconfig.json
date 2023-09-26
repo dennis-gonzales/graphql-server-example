@@ -13,7 +13,7 @@
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
     "noEmit": true,
-    "allowJs": false,
+    "allowJs": false
   },
   "include": ["**/*.ts", ".eslintrc.cjs"],
   "exclude": ["node_modules", "dist"]

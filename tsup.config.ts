@@ -1,4 +1,3 @@
-
 import { defineConfig } from 'tsup';
 
 export default defineConfig([
@@ -13,6 +12,6 @@ export default defineConfig([
     minify: true,
     shims: true,
     dts: true,
-    clean: true
+    clean: true,
   },
 ]);
