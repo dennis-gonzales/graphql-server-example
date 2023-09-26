@@ -1,17 +1,26 @@
 {
   "name": "graphql-server-example",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "GraphQL Server Example",
+  "main": "./dist/server.js",
+  "exports": "./dist/server.js",
+  "types": "./dist/server.d.ts",
   "type": "module",
+  "engines": {
+    "node": ">=16"
+  },
   "scripts": {
-    "precompile": "rm -rf ./dist",
-    "compile": "tsc",
-    "start": "npm run compile && node ./dist/src/index.js",
+    "prebuild": "rm -rf ./dist",
+    "build": "tsup server.ts",
+    "start": "node dist/server.js",
+    "dev": "yarn build --watch --onSuccess \"yarn start\"",
+    "lint": "eslint --quiet .",
+    "lint:fix": "eslint --fix .",
+    "format": "prettier --write .",
     "codegen": "graphql-codegen --config codegen.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "Dennis Gonzales",
   "license": "ISC",
   "dependencies": {
     "@apollo/server": "^4.9.3",
@@ -22,6 +31,7 @@
     "@graphql-codegen/typescript": "4.0.1",
     "@graphql-codegen/typescript-resolvers": "4.0.1",
     "@types/node": "^20.7.0",
+    "tsup": "^7.2.0",
     "typescript": "^5.2.2"
   }
 }
