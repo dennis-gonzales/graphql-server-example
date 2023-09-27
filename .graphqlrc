@@ -1,0 +1,11 @@
+# see https://the-guild.dev/graphql/config/docs
+# see https://the-guild.dev/graphql/config/docs/user/usage#extensions
+
+schema: './src/*.graphql'
+extensions:
+  codegen:
+    generates:
+      ./src/__generated__/resolvers-types.ts:
+        plugins:
+          - typescript
+          - typescript-resolvers

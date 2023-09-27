@@ -26,12 +26,14 @@
   "dependencies": {
     "@apollo/server": "^4.9.3",
     "graphql": "^16.8.1",
+    "graphql-config": "^5.0.2",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "5.0.0",
     "@graphql-codegen/typescript": "4.0.1",
     "@graphql-codegen/typescript-resolvers": "4.0.1",
+    "@graphql-eslint/eslint-plugin": "^3.20.1",
     "@total-typescript/ts-reset": "^0.5.1",
     "@tsconfig/recommended": "^1.0.3",
     "@types/node": "^20.7.0",

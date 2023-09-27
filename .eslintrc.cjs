@@ -67,11 +67,32 @@ module.exports = {
       node: true,
     },
   },
+  overrides: [
+    {
+      /** @see https://the-guild.dev/graphql/eslint/docs/getting-started#configuration */
+      files: ['*.graphql'],
+
+      /** @see https://the-guild.dev/graphql/eslint/docs/configs */
+      extends: 'plugin:@graphql-eslint/schema-recommended',
+
+      rules: {
+        /** @description Disabled rule as it makes the linting fail for graphql. */
+        '@typescript-eslint/consistent-type-exports': 'off',
+
+        '@graphql-eslint/require-description': 'off',
+      },
+    },
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
     project: './tsconfig.json',
+
+    /** @see https://the-guild.dev/graphql/eslint/docs/getting-started#extended-linting-rules-with-siblings-operations */
+    operations: './src/**/*.graphql',
+    /** @see https://the-guild.dev/graphql/eslint/docs/getting-started#extended-linting-rules-with-graphql-schema */
+    schema: './src/schema.graphql',
   },
   plugins: [
     '@typescript-eslint',
