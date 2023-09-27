@@ -8,7 +8,19 @@ const queries: QueryResolvers = {
     return dataSources.booksAPI.getBooks();
   },
   book: async (_, args, { dataSources }) => {
-    return dataSources.booksAPI.getBook(args.id);
+    return dataSources.booksAPI.getBook(args.bookId);
+  },
+  authors: async (_, __, { dataSources }) => {
+    return dataSources.booksAPI.getAuthors();
+  },
+  author: async (_, args, { dataSources }) => {
+    return dataSources.booksAPI.getAuthor(args.authorId);
+  },
+  reviews: async (_, __, { dataSources }) => {
+    return dataSources.booksAPI.getReviews();
+  },
+  review: async (_, args, { dataSources }) => {
+    return dataSources.booksAPI.getReview(args.reviewId);
   },
 };
 

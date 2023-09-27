@@ -1,20 +1,44 @@
 type Query {
+  authors: [Author]
+  author(authorId: ID!): Author
+
   books: [Book]
-  book(id: ID!): Book
+  book(bookId: ID!): Book
+
+  reviews: [Review]
+  review(reviewId: ID!): Review
+}
+
+type Author {
+  id: ID!
+  name: String!
+  verified: Boolean!
+  reviews: [Review!]
 }
 
 type Book {
   id: ID!
   title: String!
-  author: String!
+  characters: [String!]!
+  reviews: [Review!]
+}
+
+type Review {
+  id: ID!
+  rating: Int!
+  content: String!
+  bookId: String!
+  authorId: String!
+  book: Book!
+  author: Author
 }
 
 type AddBookMutationResponse {
+  id: ID!
+  book: Book
   code: String
   success: Boolean
   message: String
-  book: Book
-  id: ID!
 }
 
 type Mutation {
