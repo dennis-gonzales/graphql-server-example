@@ -1,4 +1,4 @@
-import type { AuthorResolvers } from '../__generated__/resolvers-types';
+import type { AuthorResolvers, Review } from '../__generated__/resolvers-types';
 
 const authorResolver: AuthorResolvers = {
   id: author => author.id,
@@ -7,7 +7,7 @@ const authorResolver: AuthorResolvers = {
 
   verified: author => author.verified,
 
-  reviews: (author, _, { dataSources }) =>
+  reviews: async (author, _, { dataSources }): Promise<Review[]> =>
     dataSources.booksAPI.getReviewsByAuthorId(author.id),
 };
 

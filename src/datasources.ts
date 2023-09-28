@@ -93,9 +93,6 @@ export class BooksDataSource {
     await this._addBook(newBook);
   }
 
-  // We are using a static data set for this small example, but normally
-  // this Mutation would *mutate* our underlying data using a database
-  // or a REST API.
   async addBook(book: Book): Promise<AddBookMutationResponse> {
     if (book.id && book.title && Array.isArray(book.characters)) {
       this._addBook(book);

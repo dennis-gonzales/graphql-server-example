@@ -1,25 +1,28 @@
-import type { QueryResolvers } from '../__generated__/resolvers-types';
+import type {
+  Author,
+  Book,
+  Maybe,
+  QueryResolvers,
+  Review,
+} from '../__generated__/resolvers-types';
 
-// Use the generated `QueryResolvers` type to type check our queries!
 const queries: QueryResolvers = {
-  // Our third argument (`contextValue`) has a type here, so we
-  // can check the properties within our resolver's shared context value.
-  books: async (_, __, { dataSources }) => {
+  books: async (_, __, { dataSources }): Promise<Book[]> => {
     return dataSources.booksAPI.getBooks();
   },
-  book: async (_, args, { dataSources }) => {
+  book: async (_, args, { dataSources }): Promise<Maybe<Book>> => {
     return dataSources.booksAPI.getBook(args.bookId);
   },
-  authors: async (_, __, { dataSources }) => {
+  authors: async (_, __, { dataSources }): Promise<Author[]> => {
     return dataSources.booksAPI.getAuthors();
   },
-  author: async (_, args, { dataSources }) => {
+  author: async (_, args, { dataSources }): Promise<Maybe<Author>> => {
     return dataSources.booksAPI.getAuthor(args.authorId);
   },
-  reviews: async (_, __, { dataSources }) => {
+  reviews: async (_, __, { dataSources }): Promise<Review[]> => {
     return dataSources.booksAPI.getReviews();
   },
-  review: async (_, args, { dataSources }) => {
+  review: async (_, args, { dataSources }): Promise<Maybe<Review>> => {
     return dataSources.booksAPI.getReview(args.reviewId);
   },
 };
