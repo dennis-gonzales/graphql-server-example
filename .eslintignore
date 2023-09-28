@@ -1,3 +1,5 @@
 node_modules/
 dist/
 __generated__/
+prettier.config.cjs
+.lintstagedrc.cjs
