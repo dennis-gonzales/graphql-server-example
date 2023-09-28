@@ -1,3 +1,5 @@
+union SearchResult = Book | Author
+
 type Query {
   authors: [Author!]
   author(authorId: ID!): Author
@@ -8,7 +10,7 @@ type Query {
   reviews: [Review!]
   review(reviewId: ID!): Review
 
-  search(contains: String!): [Book!]
+  search(contains: String!): [SearchResult!]
 }
 
 type Author {

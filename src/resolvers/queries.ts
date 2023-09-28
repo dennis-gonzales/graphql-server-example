@@ -31,8 +31,12 @@ const queries: QueryResolvers = {
     return dataSources.booksAPI.getReview(args.reviewId);
   },
 
-  search: async (_, { contains }, { dataSources }): Promise<Book[]> => {
-    return dataSources.booksAPI.searchBooks(contains);
+  search: async (
+    _,
+    { contains },
+    { dataSources }
+  ): Promise<Array<Author | Book>> => {
+    return dataSources.booksAPI.search(contains);
   },
 };
 

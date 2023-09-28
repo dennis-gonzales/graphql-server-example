@@ -4,6 +4,7 @@ import Query from './queries';
 import authorResolver from './resolve-author';
 import bookResolver from './resolve-book';
 import reviewResolver from './resolve-review';
+import searchResolver from './resolve-search';
 
 export default {
   Query,
@@ -11,4 +12,5 @@ export default {
   Book: bookResolver,
   Author: authorResolver,
   Review: reviewResolver,
+  SearchResult: searchResolver,
 } as Resolvers;

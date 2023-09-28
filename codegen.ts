@@ -21,6 +21,9 @@ const config: CodegenConfig = {
         // https://the-guild.dev/graphql/codegen/plugins/typescript/typescript#strictscalars
         strictScalars: true,
 
+        // https://the-guild.dev/graphql/codegen/plugins/typescript/typescript#enumsastypes
+        enumsAsTypes: true,
+
         useIndexSignature: true,
         // Providing our context's interface ensures our context's type is set for
         // all of our resolvers.

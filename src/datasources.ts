@@ -44,10 +44,18 @@ export class BooksDataSource {
     return db.data.books;
   }
 
-  searchBooks(contains: string): BookType[] {
-    return db.data.books.filter(book =>
-      book.title.toLowerCase().includes(contains.toLowerCase())
+  search(contains: string): Array<BookType | AuthorType> {
+    const searchString = contains.toLowerCase();
+
+    const matchedBooks = db.data.books.filter(book =>
+      book.title.toLowerCase().includes(searchString)
     );
+
+    const matchedAuthors = db.data.authors.filter(author =>
+      author.name.toLowerCase().includes(searchString)
+    );
+
+    return [...matchedBooks, ...matchedAuthors];
   }
 
   getBook(bookId: string): Maybe<BookType> {
