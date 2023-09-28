@@ -27,6 +27,7 @@
     "@apollo/server": "^4.9.3",
     "graphql": "^16.8.1",
     "graphql-config": "^5.0.2",
+    "lowdb": "^6.0.1",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

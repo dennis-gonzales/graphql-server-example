@@ -1,5 +1,9 @@
-// Use our automatically generated Book and AddBookMutationResponse types
-// for type safety in our data source class
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+import { Low } from 'lowdb';
+import { JSONFile } from 'lowdb/node';
+
 import type {
   AddBookMutationResponse,
   Author,
@@ -14,129 +18,79 @@ type BookType = Omit<Required<Book>, '__typename'>;
 type AuthorType = Omit<Required<Author>, '__typename'>;
 type ReviewType = Omit<Required<Review>, ' __typename'>;
 
-const authors = [
-  {
-    id: '1',
-    name: 'John Smith',
-    verified: true,
-  },
-  {
-    id: '2',
-    name: 'Jane Doe',
-    verified: false,
-  },
-  {
-    id: '3',
-    name: 'Alan Poe',
-    verified: true,
-  },
-] as AuthorType[];
+type Data = {
+  books: BookType[];
+  authors: AuthorType[];
+  reviews: ReviewType[];
+};
 
-let books = [
-  {
-    id: '1',
-    title: 'Mystery Island',
-    characters: ['Bob', 'Alice', 'Tom'],
-  },
-  {
-    id: '2',
-    title: 'Space Adventure',
-    characters: ['Jim', 'Eva', 'Sam'],
-  },
-  {
-    id: '3',
-    title: 'Haunted Mansion',
-    characters: ['Liam', 'Sophia', 'Olivia'],
-  },
-] as BookType[];
+// db.json file path
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const file = join(__dirname, '../_db.json');
 
-const reviews = [
-  {
-    id: '1',
-    rating: 5,
-    content: 'Great book!',
-    authorId: '1',
-    bookId: '3',
-  },
-  {
-    id: '2',
-    rating: 4,
-    content: 'Interesting read.',
-    authorId: '2',
-    bookId: '3',
-  },
-  {
-    id: '3',
-    rating: 3,
-    content: 'Not bad, could be better.',
-    authorId: '3',
-    bookId: '1',
-  },
-  {
-    id: '4',
-    rating: 5,
-    content: 'Absolutely loved it!',
-    authorId: '2',
-    bookId: '2',
-  },
-  {
-    id: '5',
-    rating: 2,
-    content: 'Not my cup of tea.',
-    authorId: '3',
-    bookId: '1',
-  },
-] as ReviewType[];
+console.log({ file });
+
+// Configure lowdb to write data to JSON file
+const defaultData = { books: [], authors: [], reviews: [] };
+const adapter = new JSONFile<Data>(file);
+const db = new Low<Data>(adapter, defaultData);
+
+// Read data from JSON file, this will set db.data content
+// If JSON file doesn't exist, defaultData is used instead
+await db.read();
 
 export class BooksDataSource {
   getBooks(): BookType[] {
-    return books;
+    return db.data.books;
   }
 
   getBook(bookId: string): Maybe<BookType> {
-    return books.find(book => book.id === bookId);
+    return db.data.books.find(book => book.id === bookId);
   }
 
   getAuthors(): AuthorType[] {
-    return authors;
+    return db.data.authors;
   }
 
   getAuthor(authorId: string): Maybe<AuthorType> {
-    return authors.find(author => author.id === authorId);
+    return db.data.authors.find(author => author.id === authorId);
   }
 
   getReviews(): ReviewType[] {
-    return reviews;
+    return db.data.reviews;
   }
 
   getReviewsByAuthorId(authorId: string): ReviewType[] {
-    return reviews.filter(review => review.authorId === authorId);
+    return db.data.reviews.filter(review => review.authorId === authorId);
   }
 
   getReviewsByBookId(bookId: string): ReviewType[] {
-    return reviews.filter(review => review.bookId === bookId);
+    return db.data.reviews.filter(review => review.bookId === bookId);
   }
 
   getReview(reviewId: string): Maybe<ReviewType> {
-    return reviews.find(review => review.id === reviewId);
+    return db.data.reviews.find(review => review.id === reviewId);
   }
 
-  private _addBook(book: BookType): void {
-    books.push({
+  private async _addBook(book: BookType): Promise<void> {
+    db.data.books.push({
       id: book.id,
       title: book.title,
       characters: book.characters,
       reviews: book.reviews,
     });
+
+    await db.write();
   }
 
-  private _updateBook(newBook: BookType): void {
-    this._deleteBook(newBook.id);
-    this._addBook(newBook);
+  private async _deleteBook(bookId: string): Promise<void> {
+    db.data.books = db.data.books.filter(book => book.id !== bookId);
+    await db.write();
   }
 
-  private _deleteBook(bookId: string): void {
-    books = books.filter(book => book.id !== bookId);
+  private async _updateBook(newBook: BookType): Promise<void> {
+    await this._deleteBook(newBook.id);
+    await this._addBook(newBook);
   }
 
   // We are using a static data set for this small example, but normally
@@ -168,7 +122,7 @@ export class BooksDataSource {
     bookId: string,
     updatedBook: Partial<Omit<BookType, 'id' | 'reviews'>>
   ): Promise<UpdateBookMutationResponse> {
-    const book = books.find(book => book.id === bookId);
+    const book = db.data.books.find(book => book.id === bookId);
 
     if (book) {
       const newBook: Book = {
@@ -199,7 +153,7 @@ export class BooksDataSource {
   }
 
   async deleteBook(bookId: string): Promise<DeleteBookMutationResponse> {
-    if (bookId && books.some(book => book.id === bookId)) {
+    if (bookId && db.data.books.some(book => book.id === bookId)) {
       this._deleteBook(bookId);
 
       return {

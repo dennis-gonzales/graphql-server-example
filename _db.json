@@ -1,0 +1,85 @@
+{
+  "authors": [
+    {
+      "id": "1",
+      "name": "John Smith",
+      "verified": true
+    },
+    {
+      "id": "2",
+      "name": "Jane Doe",
+      "verified": false
+    },
+    {
+      "id": "3",
+      "name": "Alan Poe",
+      "verified": true
+    }
+  ],
+  "books": [
+    {
+      "id": "1",
+      "title": "Mystery Island",
+      "characters": [
+        "Bob",
+        "Alice",
+        "Tom"
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Space Adventure",
+      "characters": [
+        "Jim",
+        "Eva",
+        "Sam"
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Haunted Mansion",
+      "characters": [
+        "Liam",
+        "Sophia",
+        "Olivia"
+      ]
+    }
+  ],
+  "reviews": [
+    {
+      "id": "1",
+      "rating": 5,
+      "content": "Great book!",
+      "authorId": "1",
+      "bookId": "3"
+    },
+    {
+      "id": "2",
+      "rating": 4,
+      "content": "Interesting read.",
+      "authorId": "2",
+      "bookId": "3"
+    },
+    {
+      "id": "3",
+      "rating": 3,
+      "content": "Not bad, could be better.",
+      "authorId": "3",
+      "bookId": "1"
+    },
+    {
+      "id": "4",
+      "rating": 5,
+      "content": "Absolutely loved it!",
+      "authorId": "2",
+      "bookId": "2"
+    },
+    {
+      "id": "5",
+      "rating": 2,
+      "content": "Not my cup of tea.",
+      "authorId": "3",
+      "bookId": "1"
+    }
+  ]
+}
