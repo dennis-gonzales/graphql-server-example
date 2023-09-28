@@ -1,11 +1,11 @@
 type Query {
-  authors: [Author]
+  authors: [Author!]
   author(authorId: ID!): Author
 
-  books: [Book]
+  books: [Book!]
   book(bookId: ID!): Book
 
-  reviews: [Review]
+  reviews: [Review!]
   review(reviewId: ID!): Review
 }
 
