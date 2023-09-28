@@ -1,3 +1,8 @@
+/**
+ * @description generated file via `npx graphql-code-generator init`
+ * @see https://www.apollographql.com/docs/apollo-server/workflow/generate-types
+ */
+
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
