@@ -16,7 +16,7 @@ const reviewResolver: ReviewResolvers = {
   author: (parent, _, { dataSources }) =>
     dataSources.booksAPI.getAuthor(parent.authorId),
 
-  book(parent, _, { dataSources }) {
+  book: (parent, _, { dataSources }) => {
     const result = dataSources.booksAPI.getBook(parent.bookId);
 
     if (!result) {

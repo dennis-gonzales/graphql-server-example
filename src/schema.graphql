@@ -33,14 +33,49 @@ type Review {
   author: Author
 }
 
-type AddBookMutationResponse {
-  id: ID!
-  book: Book
+interface MutationResponse {
   code: String
   success: Boolean
   message: String
 }
 
+type AddBookMutationResponse implements MutationResponse {
+  code: String
+  success: Boolean
+  message: String
+  book: Book
+  id: ID!
+}
+
+type UpdateBookMutationResponse implements MutationResponse {
+  code: String
+  success: Boolean
+  message: String
+  book: Book
+  id: ID!
+}
+
+type DeleteBookMutationResponse implements MutationResponse {
+  code: String
+  success: Boolean
+  message: String
+  id: ID!
+}
+
+input AddBookInput {
+  title: String!
+  characters: [String!]!
+}
+
+input UpdateBookInput {
+  title: String
+  characters: [String!]
+}
+
 type Mutation {
-  addBook(title: String!, author: String!): AddBookMutationResponse
+  addBook(book: AddBookInput!): AddBookMutationResponse
+
+  updateBook(bookId: ID!, book: UpdateBookInput!): UpdateBookMutationResponse
+
+  deleteBook(bookId: ID!): DeleteBookMutationResponse
 }

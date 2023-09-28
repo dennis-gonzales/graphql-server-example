@@ -6,14 +6,21 @@ import type { MutationResolvers } from '../__generated__/resolvers-types';
 const mutations: MutationResolvers = {
   // Below, we mock adding a new book. Our data set is static for this
   // example, so we won't actually modify our data.
-  addBook: async (_, { title, author }, { dataSources }) => {
-    // TODO: fix
+  addBook: async (_, { book }, { dataSources }) => {
     return dataSources.booksAPI.addBook({
+      ...book,
       id: uuidv4(),
-      title,
-      characters: [],
       reviews: [],
     });
+  },
+
+  updateBook: async (_, { bookId, book }, { dataSources }) => {
+    return dataSources.booksAPI.updateBook(bookId, {
+      ...book,
+    });
+  },
+  deleteBook: async (_, { bookId }, { dataSources }) => {
+    return dataSources.booksAPI.deleteBook(bookId);
   },
 };
 

@@ -11,7 +11,7 @@ const config: CodegenConfig = {
         avoidOptionals: true,
 
         // https://the-guild.dev/graphql/codegen/plugins/typescript/typescript#allow-undefined
-        maybeValue: 'T | null | undefined',
+        maybeValue: 'T | undefined', // overrides default type of `T | null`
 
         // https://the-guild.dev/graphql/codegen/plugins/typescript/typescript#strictscalars
         strictScalars: true,

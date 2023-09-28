@@ -4,7 +4,10 @@ import type {
   AddBookMutationResponse,
   Author,
   Book,
+  DeleteBookMutationResponse,
+  Maybe,
   Review,
+  UpdateBookMutationResponse,
 } from './__generated__/resolvers-types';
 
 type BookType = Omit<Required<Book>, '__typename'>;
@@ -29,7 +32,7 @@ const authors = [
   },
 ] as AuthorType[];
 
-const books = [
+let books = [
   {
     id: '1',
     title: 'Mystery Island',
@@ -90,7 +93,7 @@ export class BooksDataSource {
     return books;
   }
 
-  getBook(bookId: string): BookType | undefined {
+  getBook(bookId: string): Maybe<BookType> {
     return books.find(book => book.id === bookId);
   }
 
@@ -98,7 +101,7 @@ export class BooksDataSource {
     return authors;
   }
 
-  getAuthor(authorId: string): AuthorType | undefined {
+  getAuthor(authorId: string): Maybe<AuthorType> {
     return authors.find(author => author.id === authorId);
   }
 
@@ -114,26 +117,34 @@ export class BooksDataSource {
     return reviews.filter(review => review.bookId === bookId);
   }
 
-  getReview(reviewId: string): ReviewType | undefined {
+  getReview(reviewId: string): Maybe<ReviewType> {
     return reviews.find(review => review.id === reviewId);
+  }
+
+  private _addBook(book: BookType): void {
+    books.push({
+      id: book.id,
+      title: book.title,
+      characters: book.characters,
+      reviews: book.reviews,
+    });
+  }
+
+  private _updateBook(newBook: BookType): void {
+    this._deleteBook(newBook.id);
+    this._addBook(newBook);
+  }
+
+  private _deleteBook(bookId: string): void {
+    books = books.filter(book => book.id !== bookId);
   }
 
   // We are using a static data set for this small example, but normally
   // this Mutation would *mutate* our underlying data using a database
   // or a REST API.
   async addBook(book: Book): Promise<AddBookMutationResponse> {
-    if (
-      book.id &&
-      book.title &&
-      Array.isArray(book.characters) &&
-      Array.isArray(book.reviews)
-    ) {
-      books.push({
-        id: book.id,
-        title: book.title,
-        characters: book.characters,
-        reviews: book.reviews,
-      });
+    if (book.id && book.title && Array.isArray(book.characters)) {
+      this._addBook(book);
 
       return {
         code: '200',
@@ -149,6 +160,60 @@ export class BooksDataSource {
         message: 'Invalid input',
         book: undefined,
         id: book.id,
+      };
+    }
+  }
+
+  async updateBook(
+    bookId: string,
+    updatedBook: Partial<Omit<BookType, 'id' | 'reviews'>>
+  ): Promise<UpdateBookMutationResponse> {
+    const book = books.find(book => book.id === bookId);
+
+    if (book) {
+      const newBook: Book = {
+        id: book.id,
+        title: updatedBook.title || book.title,
+        characters: updatedBook.characters || book.characters,
+        reviews: book.reviews,
+      };
+
+      this._updateBook(newBook);
+
+      return {
+        code: '200',
+        success: true,
+        message: 'book updated!',
+        book: newBook,
+        id: bookId,
+      };
+    } else {
+      return {
+        code: '400',
+        success: false,
+        message: 'the book could not be found',
+        book: undefined,
+        id: bookId,
+      };
+    }
+  }
+
+  async deleteBook(bookId: string): Promise<DeleteBookMutationResponse> {
+    if (bookId && books.some(book => book.id === bookId)) {
+      this._deleteBook(bookId);
+
+      return {
+        code: '200',
+        success: true,
+        message: 'book removed!',
+        id: bookId,
+      };
+    } else {
+      return {
+        code: '400',
+        success: false,
+        message: 'invalid book id',
+        id: bookId,
       };
     }
   }
