@@ -1,6 +1,7 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import chalk from 'chalk';
 import { Low } from 'lowdb';
 import { JSONFile } from 'lowdb/node';
 
@@ -24,19 +25,22 @@ type Data = {
   reviews: ReviewType[];
 };
 
-// db.json file path
+// _db.json file path
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const file = join(__dirname, '../_db.json');
 
-console.log({ file });
+console.log(
+  chalk.greenBright('📁 Hunting down the database file... Found it! ➡️'),
+  chalk.cyanBright(file)
+);
 
-// Configure lowdb to write data to JSON file
+// If JSON file doesn't exist, defaultData is used instead
 const defaultData = { books: [], authors: [], reviews: [] };
+// Configure lowdb to write data to JSON file
 const adapter = new JSONFile<Data>(file);
 const db = new Low<Data>(adapter, defaultData);
 
 // Read data from JSON file, this will set db.data content
-// If JSON file doesn't exist, defaultData is used instead
 await db.read();
 
 export class BooksDataSource {

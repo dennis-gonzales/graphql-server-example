@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
+import chalk from 'chalk';
 
 import { BooksDataSource } from './src/datasources';
 import resolvers from './src/resolvers';
@@ -24,6 +25,10 @@ const server = new ApolloServer<MyContext>({
   resolvers,
 });
 
+console.log(
+  chalk.magentaBright('🚀🌌 Apollo GraphQL Server blasting off! 🌌🚀')
+);
+
 // Passing an ApolloServer instance to the `startStandaloneServer` function:
 //  1. creates an Express app
 //  2. installs your ApolloServer instance as middleware
@@ -41,4 +46,6 @@ const { url } = await startStandaloneServer(server, {
   },
 });
 
-console.log(`🚀  Server ready at: ${url}`);
+console.log(
+  chalk.yellowBright(`💫 Apollo GraphQL now live @ `) + chalk.blueBright(url)
+);
