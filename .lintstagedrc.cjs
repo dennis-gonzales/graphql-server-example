@@ -4,7 +4,7 @@ module.exports = {
    * @see https://github.com/okonet/lint-staged#reformatting-the-code
    * @see https://github.com/okonet/lint-staged#automatically-fix-code-style-with---fix-and-add-to-commit
    */
-  '**/*.ts?(x)': ['eslint --fix', 'prettier --write'],
+  '*.{js,jsx,ts,tsx}': ['eslint --fix', 'prettier --write'],
   '**/*.graphql': ['eslint --fix', 'prettier --write'],
   /**
    * @description Run tsc on changes to TypeScript files, but do not pass any filename arguments
