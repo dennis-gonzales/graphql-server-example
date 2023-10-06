@@ -1,13 +1,44 @@
+interface Paginated {
+  id: ID!
+  totalCount: Int!
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type PaginatedAuthors implements Paginated {
+  id: ID!
+  totalCount: Int!
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [Author!]!
+}
+
+type PaginatedBooks implements Paginated {
+  id: ID!
+  totalCount: Int!
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [Book!]!
+}
+
+type PaginatedReviews implements Paginated {
+  id: ID!
+  totalCount: Int!
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  items: [Book!]!
+}
+
 union SearchResult = Book | Author
 
 type Query {
-  authors: [Author!]
+  authors(offset: Int!, limit: Int!): PaginatedAuthors
   author(authorId: ID!): Author
 
-  books: [Book!]
+  books(offset: Int!, limit: Int!): PaginatedBooks
   book(bookId: ID!): Book
 
-  reviews: [Review!]
+  reviews(offset: Int!, limit: Int!): PaginatedReviews
   review(reviewId: ID!): Review
 
   search(contains: String!): [SearchResult!]
